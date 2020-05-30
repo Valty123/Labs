@@ -6,6 +6,7 @@ namespace LAB1.Models
 {
     public class LAB1Data
     {
+        public Guid Id { get; set; } = Guid.Empty;
         public string SerialNumber {get;set;}
         public string Brand {get;set;}
         public string Model {get;set;}
