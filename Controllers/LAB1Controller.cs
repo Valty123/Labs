@@ -12,7 +12,13 @@ namespace LAB1.Controllers
     [ApiController]
     public class LabController : ControllerBase
     {
-        private static IStorage <LAB1Data> _memCache= new MemCache();
+       
+        private IStorage<LAB1Data> _memCache;
+
+        public LabController(IStorage<LAB1Data> memCache)
+        {
+            _memCache=memCache;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<LAB1Data>> Get()
