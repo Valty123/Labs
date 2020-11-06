@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using LAB1.Models;
 
-namespace pavlovLab.Controllers
+namespace LAB1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
