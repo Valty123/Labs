@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using LAB1.Models;
 using LAB1.Storage;
+using Serilog;
 
 namespace LAB1
 {
@@ -28,6 +29,8 @@ namespace LAB1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            ConfigureLogger();
 
             switch (Configuration["Storage:Type"].ToStorageEnum())
             {
@@ -58,5 +61,21 @@ namespace LAB1
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+        private void ConfigureLogger()
+
+       {
+
+           var log = new LoggerConfiguration()
+
+               .WriteTo.Console()
+
+               .WriteTo.File("logs\\LAB1.log", rollingInterval: RollingInterval.Day)
+
+               .CreateLogger();
+
+
+           Log.Logger = log;
+
+       }
     }
 }
