@@ -5,6 +5,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using LAB1.Models;
 using LAB1.Storage;
+using Serilog;
 
 namespace LAB1.Controllers
 {
@@ -23,14 +24,14 @@ namespace LAB1.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<LAB1Data>> Get()
         {
+            Log.Information("View all cars");
             return Ok(_memCache.All);
         }
 
         [HttpGet("{id}")]
         public ActionResult<LAB1Data> Get(Guid id)
         {
-            if (_memCache.Has(id)) return NotFound("No such");
-
+            if (_memCache.Has(id)) return NotFound ("No such");
             return Ok(_memCache[id]);
         }
 
@@ -41,8 +42,9 @@ namespace LAB1.Controllers
 
             if (!validationResult.IsValid) return BadRequest(validationResult.Errors);
 
+            
             _memCache.Add(value);
-
+            Log.Information($"New car added {value.ToString()}");
             return Ok($"{value.ToString()} has been added");
         }
 
@@ -64,10 +66,13 @@ namespace LAB1.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
+           
             if (_memCache.Has(id)) return NotFound("No such");
 
             var valueToRemove = _memCache[id];
             _memCache.RemoveAt(id);
+
+           
 
             return Ok($"{valueToRemove.ToString()} has been removed");
         }
